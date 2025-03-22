@@ -1,20 +1,30 @@
 import cv2
-import numpy as np
-from PIL import Image
 import matplotlib.pyplot as plt
 
-# Load the images
-image_paths = ["/home/rahim/Downloads/Using A STIHL Long Reach Hedge Trimmer With Chris Hollins STIHL GB - STIHL GB (720p, h264).mp4"]
-images = [cv2.imread(img_path) for img_path in image_paths]
+# Load the video
+video_path = "/home/rahim/Downloads/Using A STIHL Long Reach Hedge Trimmer With Chris Hollins STIHL GB - STIHL GB (720p, h264).mp4"
+cap = cv2.VideoCapture(video_path)
 
-# Convert images from BGR to RGB (for correct display in matplotlib)
-images = [cv2.cvtColor(img, cv2.COLOR_BGR2RGB) for img in images]
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
+    cv2.imshow('Video', frame)
+    if cv2.waitKey(25) & 0xFF == ord('q'):
+        break
 
-# Display the images before annotation
-fig, axes = plt.subplots(1, 2, figsize=(12, 6))
-for ax, img, path in zip(axes, images, image_paths):
-    ax.imshow(img)
-    ax.set_title(f"Original Image: {path.split('/')[-1]}")
-    ax.axis("off")
+cap.release()
+cv2.destroyAllWindows()
 
+# Convert frame from BGR to RGB
+frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+# Display the frame
+plt.figure(figsize=(10, 6))
+plt.imshow(frame_rgb)
+plt.title(f"First Frame: {video_path.split('/')[-1]}")
+plt.axis("off")
 plt.show()
+
+# Release video resources
+cap.release()
