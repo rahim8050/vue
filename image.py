@@ -1,20 +1,41 @@
 import cv2
-import numpy as np
-from PIL import Image
 import matplotlib.pyplot as plt
 
-# Load the images
-image_paths = ["/home/rahim/Downloads/Using A STIHL Long Reach Hedge Trimmer With Chris Hollins STIHL GB - STIHL GB (720p, h264).mp4"]
-images = [cv2.imread(img_path) for img_path in image_paths]
+# Load the video
+video_path = "/home/rahim/Downloads/Using A STIHL Long Reach Hedge Trimmer With Chris Hollins STIHL GB - STIHL GB (720p, h264).mp4"
+cap = cv2.VideoCapture(video_path)
 
-# Convert images from BGR to RGB (for correct display in matplotlib)
-images = [cv2.cvtColor(img, cv2.COLOR_BGR2RGB) for img in images]
+# Check if video opened successfully
+if not cap.isOpened():
+    print("Error: Could not open video file")
+    exit()
 
-# Display the images before annotation
+# Read first two frames
+success, frame1 = cap.read()
+success, frame2 = cap.read()
+
+if not success:
+    print("Error: Could not read frames from video")
+    cap.release()
+    exit()
+
+# Convert frames from BGR to RGB
+frame1_rgb = cv2.cvtColor(frame1, cv2.COLOR_BGR2RGB)
+frame2_rgb = cv2.cvtColor(frame2, cv2.COLOR_BGR2RGB)
+
+# Create figure and axes
 fig, axes = plt.subplots(1, 2, figsize=(12, 6))
-for ax, img, path in zip(axes, images, image_paths):
-    ax.imshow(img)
-    ax.set_title(f"Original Image: {path.split('/')[-1]}")
-    ax.axis("off")
+
+# Display frames
+axes[0].imshow(frame1_rgb)
+axes[0].set_title("Frame 1")
+axes[0].axis("off")
+
+axes[1].imshow(frame2_rgb)
+axes[1].set_title("Frame 2")
+axes[1].axis("off")
 
 plt.show()
+
+# Release video capture
+cap.release()
