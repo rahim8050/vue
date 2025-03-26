@@ -11,7 +11,7 @@ try:
         print("Image loaded successfully!")
         print("Shape:", img.shape)
         plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-        plt.axis('off')
+        plt.axis('on')
         plt.show()
     else:
         print("Error: Image not found or invalid format.")
