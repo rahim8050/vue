@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
-
+# this is an update 
 # Load the images
 image_paths = ["/home/rahim/Desktop/vue-only/messi.jpg"]
 images = [cv2.imread(img_path) for img_path in image_paths]
